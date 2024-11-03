@@ -1,0 +1,574 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Epidemiology : poster presentation assignment (group 7)},
+  pdfauthor={Boaz},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Epidemiology : poster presentation assignment (group 7)}
+\author{Boaz}
+\date{2024-10-19}
+
+\begin{document}
+\maketitle
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Let's load the dataset.
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cohort }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{"Poster Presentation.csv"}\NormalTok{)}
+\FunctionTok{head}\NormalTok{(cohort, }\DecValTok{10}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    id sex age bmi_cat bp_baseline lost bp_followup
+## 1   6   0  52       2           0    0           0
+## 2   9   0  39       2           0    0           0
+## 3  13   0  30       3           1   NA          NA
+## 4  15   0  50       1           0    0           0
+## 5  18   0  60       1           0    0           0
+## 6  19   0  37       1           0    0           0
+## 7  23   1  51       2           0    0           0
+## 8  24   0  39       1           0    0           1
+## 9  30   0  50       2           0    0           0
+## 10 32   1  58       2           0    1          NA
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(cohort)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        id            sex              age           bmi_cat     
+##  Min.   :   6   Min.   :0.0000   Min.   :25.00   Min.   :1.000  
+##  1st Qu.:2387   1st Qu.:0.0000   1st Qu.:38.00   1st Qu.:1.000  
+##  Median :4860   Median :0.0000   Median :49.00   Median :2.000  
+##  Mean   :4940   Mean   :0.4383   Mean   :48.46   Mean   :2.026  
+##  3rd Qu.:7497   3rd Qu.:1.0000   3rd Qu.:59.00   3rd Qu.:3.000  
+##  Max.   :9999   Max.   :1.0000   Max.   :75.00   Max.   :4.000  
+##                                                                 
+##   bp_baseline          lost         bp_followup    
+##  Min.   :0.0000   Min.   :0.0000   Min.   :0.0000  
+##  1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.0000  
+##  Median :0.0000   Median :0.0000   Median :0.0000  
+##  Mean   :0.3145   Mean   :0.0932   Mean   :0.3517  
+##  3rd Qu.:1.0000   3rd Qu.:0.0000   3rd Qu.:1.0000  
+##  Max.   :1.0000   Max.   :1.0000   Max.   :1.0000  
+##                   NA's   :935      NA's   :1125
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  We are now cleaning the data.
+\end{enumerate}
+
+Let's recode variables
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cohort}\SpecialCharTok{$}\NormalTok{id }\OtherTok{\textless{}{-}} \FunctionTok{as.character}\NormalTok{(cohort}\SpecialCharTok{$}\NormalTok{id)}
+\NormalTok{cohort}\SpecialCharTok{$}\NormalTok{sex }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(cohort}\SpecialCharTok{$}\NormalTok{sex, }\AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{), }\AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Male"}\NormalTok{, }\StringTok{"Female"}\NormalTok{))}
+\NormalTok{cohort}\SpecialCharTok{$}\NormalTok{bmi\_cat }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(cohort}\SpecialCharTok{$}\NormalTok{bmi\_cat, }\AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{5}\NormalTok{), }
+                         \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Underweight"}\NormalTok{, }\StringTok{"Normal"}\NormalTok{, }\StringTok{"Overweight"}\NormalTok{, }
+                                    \StringTok{"Obesity"}\NormalTok{, }\StringTok{"Severe obesity"}\NormalTok{))}
+\NormalTok{cohort}\SpecialCharTok{$}\NormalTok{bp\_baseline }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(cohort}\SpecialCharTok{$}\NormalTok{bp\_baseline, }\AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{), }
+                             \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"No"}\NormalTok{, }\StringTok{"Yes"}\NormalTok{))}
+\NormalTok{cohort}\SpecialCharTok{$}\NormalTok{lost }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(cohort}\SpecialCharTok{$}\NormalTok{lost, }\AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{), }
+                             \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"No"}\NormalTok{, }\StringTok{"Yes"}\NormalTok{))}
+\NormalTok{cohort}\SpecialCharTok{$}\NormalTok{bp\_followup }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(cohort}\SpecialCharTok{$}\NormalTok{bp\_followup, }\AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{), }
+                             \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"No"}\NormalTok{, }\StringTok{"Yes"}\NormalTok{))}
+
+\FunctionTok{head}\NormalTok{(cohort, }\DecValTok{10}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    id    sex age     bmi_cat bp_baseline lost bp_followup
+## 1   6   Male  52      Normal          No   No          No
+## 2   9   Male  39      Normal          No   No          No
+## 3  13   Male  30  Overweight         Yes <NA>        <NA>
+## 4  15   Male  50 Underweight          No   No          No
+## 5  18   Male  60 Underweight          No   No          No
+## 6  19   Male  37 Underweight          No   No          No
+## 7  23 Female  51      Normal          No   No          No
+## 8  24   Male  39 Underweight          No   No         Yes
+## 9  30   Male  50      Normal          No   No          No
+## 10 32 Female  58      Normal          No  Yes        <NA>
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(cohort)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       id                sex            age                  bmi_cat    
+##  Length:2973        Male  :1670   Min.   :25.00   Underweight   : 997  
+##  Class :character   Female:1303   1st Qu.:38.00   Normal        :1024  
+##  Mode  :character                 Median :49.00   Overweight    : 829  
+##                                   Mean   :48.46   Obesity       : 123  
+##                                   3rd Qu.:59.00   Severe obesity:   0  
+##                                   Max.   :75.00                        
+##  bp_baseline   lost      bp_followup
+##  No :2038    No  :1848   No  :1198  
+##  Yes: 935    Yes : 190   Yes : 650  
+##              NA's: 935   NA's:1125  
+##                                     
+##                                     
+## 
+\end{verbatim}
+
+Let's get our study sample (population at risk) and call it
+``st\_cohort'': adults without LBP at the beginning of the study
+(bp\_baseline = No)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{st\_cohort }\OtherTok{\textless{}{-}}\NormalTok{ cohort[cohort}\SpecialCharTok{$}\NormalTok{bp\_baseline }\SpecialCharTok{==} \StringTok{"No"}\NormalTok{, ]}
+\FunctionTok{head}\NormalTok{(st\_cohort, }\DecValTok{10}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    id    sex age     bmi_cat bp_baseline lost bp_followup
+## 1   6   Male  52      Normal          No   No          No
+## 2   9   Male  39      Normal          No   No          No
+## 4  15   Male  50 Underweight          No   No          No
+## 5  18   Male  60 Underweight          No   No          No
+## 6  19   Male  37 Underweight          No   No          No
+## 7  23 Female  51      Normal          No   No          No
+## 8  24   Male  39 Underweight          No   No         Yes
+## 9  30   Male  50      Normal          No   No          No
+## 10 32 Female  58      Normal          No  Yes        <NA>
+## 11 40   Male  37      Normal          No   No          No
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#cohort[cohort$bp\_baseline == "Yes", ]}
+\end{Highlighting}
+\end{Shaded}
+
+We're now splitting our st\_cohort in 2 groups: exposed (obesity) and
+non-exposed
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{exposed }\OtherTok{\textless{}{-}}\NormalTok{ st\_cohort[st\_cohort}\SpecialCharTok{$}\NormalTok{bmi\_cat }\SpecialCharTok{==}\StringTok{"Obesity"}\NormalTok{, ]}
+\NormalTok{non\_exposed }\OtherTok{\textless{}{-}}\NormalTok{ st\_cohort[}\SpecialCharTok{!}\NormalTok{st\_cohort}\SpecialCharTok{$}\NormalTok{bmi\_cat }\SpecialCharTok{==}\StringTok{"Obesity"}\NormalTok{, ]}
+
+
+\NormalTok{exposed}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        id    sex age bmi_cat bp_baseline lost bp_followup
+## 39    140 Female  64 Obesity          No   No         Yes
+## 60    192   Male  63 Obesity          No   No          No
+## 74    226   Male  28 Obesity          No   No          No
+## 78    234 Female  48 Obesity          No   No         Yes
+## 89    271   Male  55 Obesity          No   No          No
+## 91    284   Male  33 Obesity          No  Yes        <NA>
+## 136   425 Female  56 Obesity          No  Yes        <NA>
+## 267   866 Female  63 Obesity          No   No         Yes
+## 312  1011   Male  53 Obesity          No   No          No
+## 319  1027 Female  56 Obesity          No   No         Yes
+## 377  1213   Male  47 Obesity          No   No          No
+## 466  1479   Male  34 Obesity          No   No          No
+## 557  1775 Female  49 Obesity          No   No         Yes
+## 600  1913   Male  68 Obesity          No   No         Yes
+## 639  2025   Male  49 Obesity          No   No          No
+## 654  2076   Male  26 Obesity          No   No          No
+## 716  2300   Male  52 Obesity          No   No          No
+## 748  2399 Female  44 Obesity          No   No          No
+## 826  2656 Female  57 Obesity          No   No         Yes
+## 933  2988 Female  42 Obesity          No   No          No
+## 1025 3295   Male  38 Obesity          No   No          No
+## 1075 3446   Male  59 Obesity          No   No          No
+## 1079 3461   Male  25 Obesity          No   No          No
+## 1133 3631   Male  41 Obesity          No   No         Yes
+## 1188 3813   Male  60 Obesity          No   No          No
+## 1190 3825   Male  69 Obesity          No   No         Yes
+## 1272 4119 Female  44 Obesity          No   No          No
+## 1273 4120 Female  49 Obesity          No   No          No
+## 1318 4252 Female  60 Obesity          No   No          No
+## 1363 4430   Male  35 Obesity          No   No          No
+## 1500 4898 Female  36 Obesity          No   No         Yes
+## 1515 4930   Male  70 Obesity          No   No         Yes
+## 1548 5080   Male  43 Obesity          No   No         Yes
+## 1586 5191   Male  47 Obesity          No   No          No
+## 1644 5377 Female  43 Obesity          No   No          No
+## 1657 5448   Male  57 Obesity          No  Yes        <NA>
+## 1676 5523   Male  70 Obesity          No   No         Yes
+## 1693 5579 Female  45 Obesity          No   No          No
+## 1698 5599 Female  52 Obesity          No   No          No
+## 1750 5797   Male  71 Obesity          No   No         Yes
+## 1753 5806   Male  61 Obesity          No   No          No
+## 1790 5939 Female  49 Obesity          No   No         Yes
+## 1911 6393   Male  43 Obesity          No   No          No
+## 1935 6478   Male  69 Obesity          No   No         Yes
+## 1962 6563 Female  45 Obesity          No   No         Yes
+## 1973 6606   Male  31 Obesity          No   No          No
+## 2105 7069 Female  53 Obesity          No   No          No
+## 2126 7151   Male  34 Obesity          No   No          No
+## 2163 7264   Male  33 Obesity          No   No          No
+## 2185 7319   Male  43 Obesity          No   No          No
+## 2240 7532   Male  39 Obesity          No   No         Yes
+## 2330 7866   Male  55 Obesity          No   No          No
+## 2332 7875   Male  38 Obesity          No   No          No
+## 2378 8035   Male  46 Obesity          No   No         Yes
+## 2393 8087   Male  62 Obesity          No   No         Yes
+## 2439 8257   Male  52 Obesity          No   No          No
+## 2476 8375   Male  32 Obesity          No   No          No
+## 2486 8405   Male  25 Obesity          No   No          No
+## 2503 8472 Female  52 Obesity          No   No         Yes
+## 2635 8910 Female  59 Obesity          No  Yes        <NA>
+## 2751 9337   Male  69 Obesity          No   No         Yes
+## 2832 9605 Female  67 Obesity          No   No         Yes
+## 2902 9801 Female  61 Obesity          No   No         Yes
+## 2947 9932   Male  72 Obesity          No   No         Yes
+## 2953 9947 Female  52 Obesity          No   No          No
+## 2971 9997 Female  28 Obesity          No   No          No
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{nrow}\NormalTok{(non\_exposed)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1972
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{head}\NormalTok{(non\_exposed, }\DecValTok{70}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      id    sex age     bmi_cat bp_baseline lost bp_followup
+## 1     6   Male  52      Normal          No   No          No
+## 2     9   Male  39      Normal          No   No          No
+## 4    15   Male  50 Underweight          No   No          No
+## 5    18   Male  60 Underweight          No   No          No
+## 6    19   Male  37 Underweight          No   No          No
+## 7    23 Female  51      Normal          No   No          No
+## 8    24   Male  39 Underweight          No   No         Yes
+## 9    30   Male  50      Normal          No   No          No
+## 10   32 Female  58      Normal          No  Yes        <NA>
+## 11   40   Male  37      Normal          No   No          No
+## 12   41 Female  53      Normal          No   No         Yes
+## 13   42   Male  50  Overweight          No   No         Yes
+## 14   43 Female  60      Normal          No   No          No
+## 15   44   Male  34  Overweight          No   No         Yes
+## 16   47   Male  46  Overweight          No   No          No
+## 17   48   Male  47 Underweight          No   No          No
+## 19   55   Male  60 Underweight          No   No          No
+## 20   56   Male  38      Normal          No   No          No
+## 25   74   Male  63 Underweight          No   No          No
+## 26   78   Male  72  Overweight          No   No         Yes
+## 29   98   Male  71      Normal          No   No         Yes
+## 30   99 Female  46  Overweight          No   No         Yes
+## 31  102 Female  74      Normal          No   No         Yes
+## 33  114   Male  29 Underweight          No   No          No
+## 34  116 Female  53      Normal          No   No          No
+## 36  133   Male  49  Overweight          No   No          No
+## 38  136   Male  43 Underweight          No   No          No
+## 41  143 Female  26  Overweight          No   No          No
+## 42  147   Male  72 Underweight          No   No         Yes
+## 44  149   Male  37      Normal          No   No          No
+## 49  163 Female  27      Normal          No   No          No
+## 50  167 Female  40      Normal          No   No         Yes
+## 54  174   Male  61 Underweight          No   No          No
+## 56  181 Female  65      Normal          No   No          No
+## 57  186   Male  47      Normal          No   No          No
+## 59  191   Male  53      Normal          No   No          No
+## 61  194   Male  44 Underweight          No   No          No
+## 62  196   Male  30 Underweight          No   No          No
+## 63  202 Female  46      Normal          No   No          No
+## 66  207   Male  55 Underweight          No   No          No
+## 67  210 Female  58 Underweight          No   No          No
+## 68  212   Male  69  Overweight          No   No         Yes
+## 70  214   Male  29 Underweight          No   No          No
+## 72  219   Male  33      Normal          No   No         Yes
+## 73  221 Female  64 Underweight          No   No          No
+## 75  228 Female  55  Overweight          No   No          No
+## 76  231 Female  27 Underweight          No   No          No
+## 77  232   Male  36 Underweight          No   No          No
+## 79  243 Female  52 Underweight          No   No          No
+## 80  246   Male  61  Overweight          No   No         Yes
+## 81  251   Male  55 Underweight          No   No          No
+## 84  263   Male  59 Underweight          No   No          No
+## 85  266 Female  60      Normal          No   No          No
+## 87  269 Female  66 Underweight          No   No         Yes
+## 92  286 Female  41 Underweight          No   No         Yes
+## 93  291 Female  53 Underweight          No   No          No
+## 94  293   Male  39  Overweight          No   No          No
+## 95  294   Male  44  Overweight          No  Yes        <NA>
+## 97  303   Male  35      Normal          No  Yes        <NA>
+## 98  304 Female  53  Overweight          No  Yes        <NA>
+## 100 312 Female  57  Overweight          No   No          No
+## 101 313   Male  53      Normal          No   No          No
+## 103 318   Male  41      Normal          No   No         Yes
+## 104 325 Female  51      Normal          No   No          No
+## 106 334   Male  62      Normal          No   No         Yes
+## 109 345 Female  74 Underweight          No   No         Yes
+## 111 349   Male  25 Underweight          No   No          No
+## 112 350 Female  48 Underweight          No   No         Yes
+## 113 353   Male  36 Underweight          No   No         Yes
+## 114 356   Male  53  Overweight          No   No         Yes
+\end{verbatim}
+
+Q. Are we going to follow all non-exposed individuals or pick up a
+random sample of them ?: 66 \textgreater\textless{} 1972
+
+Attrition bias (lost to follow up):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{lost\_expo }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(exposed}\SpecialCharTok{$}\NormalTok{bp\_followup))}
+\NormalTok{lost\_non\_expo }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(non\_exposed}\SpecialCharTok{$}\NormalTok{bp\_followup))}
+\NormalTok{lost\_non\_expo}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 186
+\end{verbatim}
+
+Let's create a 2x2 table
+
+Considering : a = exposed with outcome b = non-exposed with outcome c =
+exposed without outcome d = non-exposed without outcome
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{a }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(}\FunctionTok{which}\NormalTok{(exposed}\SpecialCharTok{$}\NormalTok{bp\_followup }\SpecialCharTok{==} \StringTok{"Yes"}\NormalTok{))}
+\NormalTok{b }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(}\FunctionTok{which}\NormalTok{(exposed}\SpecialCharTok{$}\NormalTok{bp\_followup }\SpecialCharTok{==} \StringTok{"No"}\NormalTok{))}
+\NormalTok{c }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(}\FunctionTok{which}\NormalTok{(non\_exposed}\SpecialCharTok{$}\NormalTok{bp\_followup }\SpecialCharTok{==} \StringTok{"Yes"}\NormalTok{))}
+\NormalTok{d }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(}\FunctionTok{which}\NormalTok{(non\_exposed}\SpecialCharTok{$}\NormalTok{bp\_followup }\SpecialCharTok{==} \StringTok{"No"}\NormalTok{))}
+
+\NormalTok{a}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 25
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{b}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 37
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{c}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 625
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{d}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1161
+\end{verbatim}
+
+We are now creating a 2x2 matrix :
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{table }\OtherTok{\textless{}{-}} \FunctionTok{matrix}\NormalTok{(}\FunctionTok{c}\NormalTok{(a, b, c, d), }\AttributeTok{nrow =} \DecValTok{2}\NormalTok{, }\AttributeTok{byrow =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{table }\OtherTok{\textless{}{-}} \FunctionTok{cbind}\NormalTok{(table, }\FunctionTok{c}\NormalTok{(a }\SpecialCharTok{+}\NormalTok{ b, c }\SpecialCharTok{+}\NormalTok{ d))}
+\FunctionTok{colnames}\NormalTok{(table) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"Low back pain"}\NormalTok{, }\StringTok{"Without LBP"}\NormalTok{, }\StringTok{"Total"}\NormalTok{)}
+\FunctionTok{rownames}\NormalTok{(table) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"Obesity"}\NormalTok{, }\StringTok{"Without Obesity"}\NormalTok{)}
+
+\NormalTok{table}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                 Low back pain Without LBP Total
+## Obesity                    25          37    62
+## Without Obesity           625        1161  1786
+\end{verbatim}
+
+Let's compute the Risk Ratio
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  risk of outcome in exposed and non-exposed groups
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{lbp\_expo }\OtherTok{\textless{}{-}}\NormalTok{ a}\SpecialCharTok{/}\NormalTok{(a}\SpecialCharTok{+}\NormalTok{b)}
+\NormalTok{lbp\_expo}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.4032258
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{lbp\_non\_exp }\OtherTok{\textless{}{-}}\NormalTok{ c}\SpecialCharTok{/}\NormalTok{(c}\SpecialCharTok{+}\NormalTok{d)}
+\NormalTok{lbp\_non\_exp}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.349944
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Risk Ratio
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{RR }\OtherTok{\textless{}{-}}\NormalTok{ lbp\_expo}\SpecialCharTok{/}\NormalTok{lbp\_non\_exp}
+\NormalTok{RR}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1.152258
+\end{verbatim}
+
+\end{document}

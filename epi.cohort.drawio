@@ -1,0 +1,43 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Safari/605.1.15" version="24.8.2">
+  <diagram name="Page-1" id="JuyEAvQlxLamM2P5u9fG">
+    <mxGraphModel dx="1716" dy="520" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" value="Start" style="ellipse;aspect=fixed;strokeWidth=2;whiteSpace=wrap;" parent="1" vertex="1">
+          <mxGeometry x="70" y="8" width="50" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="3" value="Enrolled group" style="rounded=1;arcSize=40;strokeWidth=2" parent="1" vertex="1">
+          <mxGeometry x="25" y="80" width="135" height="49" as="geometry" />
+        </mxCell>
+        <mxCell id="4" value="Number of excluded participants" style="rounded=1;arcSize=40;strokeWidth=2" parent="1" vertex="1">
+          <mxGeometry x="180" y="140" width="175" height="66" as="geometry" />
+        </mxCell>
+        <mxCell id="5" value="End" style="rounded=1;arcSize=40;strokeWidth=2" parent="1" vertex="1">
+          <mxGeometry x="50" y="550" width="56" height="49" as="geometry" />
+        </mxCell>
+        <mxCell id="XMGzml4s6gFTD9jG3hak-8" value="Eligible and randomly assigned" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="1">
+          <mxGeometry x="25" y="220" width="135" height="49" as="geometry" />
+        </mxCell>
+        <mxCell id="XMGzml4s6gFTD9jG3hak-9" value="Exposed" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="1">
+          <mxGeometry x="-160" y="320" width="135" height="49" as="geometry" />
+        </mxCell>
+        <mxCell id="XMGzml4s6gFTD9jG3hak-10" value="Non-exposed" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="1">
+          <mxGeometry x="190" y="320" width="135" height="49" as="geometry" />
+        </mxCell>
+        <mxCell id="XMGzml4s6gFTD9jG3hak-11" value="with outcome" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="1">
+          <mxGeometry x="-240" y="450" width="135" height="49" as="geometry" />
+        </mxCell>
+        <mxCell id="XMGzml4s6gFTD9jG3hak-12" value="without outcome" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="1">
+          <mxGeometry x="-85" y="450" width="135" height="49" as="geometry" />
+        </mxCell>
+        <mxCell id="XMGzml4s6gFTD9jG3hak-13" value="with outcome" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="1">
+          <mxGeometry x="124" y="450" width="135" height="49" as="geometry" />
+        </mxCell>
+        <mxCell id="XMGzml4s6gFTD9jG3hak-14" value="without outcome" style="rounded=1;arcSize=40;strokeWidth=2" vertex="1" parent="1">
+          <mxGeometry x="279" y="450" width="135" height="49" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

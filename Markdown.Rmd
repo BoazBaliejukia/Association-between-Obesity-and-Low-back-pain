@@ -1,0 +1,284 @@
+---
+title: 'Epidemiology : poster presentation assignment (group 7)'
+author: "Boaz"
+date: "2024-10-19"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+# Let's upload the dataset.
+
+```{r}
+sample <- read.csv("Poster Presentation.csv")
+head(sample, 10)
+summary(sample)
+
+
+```
+
+# We are now cleaning data.
+    
+## Let's recode variables
+    
+```{r}
+sample$id <- as.character(sample$id)
+sample$sex <- factor(sample$sex, levels = c(0, 1), labels = c("Male", "Female"))
+sample$bmi_cat <- factor(sample$bmi_cat, levels = c(1, 2, 3, 4, 5), 
+                         labels = c("Underweight", "Normal", "Overweight", 
+                                    "Obesity", "Severe obesity"))
+sample$bp_baseline <- factor(sample$bp_baseline, levels = c(0, 1), 
+                             labels = c("No", "Yes"))
+sample$lost <- factor(sample$lost, levels = c(0, 1), 
+                             labels = c("No", "Yes"))
+sample$bp_followup <- factor(sample$bp_followup, levels = c(0, 1), 
+                             labels = c("No", "Yes"))
+
+head(sample, 10)
+summary(sample)
+
+```
+
+
+## Let's get our population at risk and call it "cohort": adults without LBP at the beginning of the study (bp_baseline = No) 
+
+
+```{r}
+cohort <- sample[sample$bp_baseline == "No", ]
+head(cohort, 10)
+
+```
+
+### Table 1: Baseline characteristics according to BMI categories:
+```{r}
+library(dplyr)
+cat <- cohort %>%
+    group_by(bmi_cat) %>%
+    summarise(
+        count = n(),
+        mean_age = mean(age, na.rm = TRUE),
+        sd_age = sd(age, na.rm = TRUE),
+        male_percentage = sum(sex == "Male") / n() * 100,
+        female_percentage = sum(sex == "Female") / n() * 100
+    )
+cat
+```
+
+### Figure 1: Barplot
+
+```{r}
+library(tidyverse)
+
+graph1 <- cohort %>%
+    drop_na() %>%
+    ggplot(aes(bmi_cat, fill = sex)) +
+    geom_bar(position = "dodge", alpha = 0.8) +
+    theme_classic(base_size = 13) + 
+  labs(title = "Participants by BMI groups and gender at baseline", 
+       x = "BMI categories", y = "Number of participants")
+
+graph1
+```
+
+## We're now splitting our cohort into 2 groups: exposed (obesity) and non-exposed
+
+```{r}
+exposed <- cohort[cohort$bmi_cat =="Obesity", ]
+non_exposed <- cohort[!cohort$bmi_cat =="Obesity", ]
+
+nrow(exposed)
+exposed
+nrow(non_exposed)
+head(non_exposed, 70)
+ 
+```
+
+
+### Baseline Demographic characteristics of participants:
+```{r}
+library(dplyr)
+demo_expo <- exposed %>%
+    summarise(
+        count = n(),
+        mean_age = mean(age, na.rm = TRUE),
+        sd_age = sd(age, na.rm = TRUE),
+        male_percentage = sum(sex == "Male") / n() * 100,
+        female_percentage = sum(sex == "Female") / n() * 100
+    )
+demo_expo
+
+demo_non_expo <- non_exposed %>%
+    summarise(
+        count = n(),
+        mean_age = mean(age, na.rm = TRUE),
+        sd_age = sd(age, na.rm = TRUE),
+        male_percentage = sum(sex == "Male") / n() * 100,
+        female_percentage = sum(sex == "Female") / n() * 100
+    )
+demo_non_expo
+```
+
+# Result 
+
+## Attrition bias (lost to follow up):
+
+```{r}
+lost_expo <- sum(is.na(exposed$bp_followup))
+lost_non_expo <- sum(is.na(non_exposed$bp_followup))
+
+lost_expo
+lost_non_expo
+```
+
+
+## Let's create a 2x2 table
+
+Considering :
+a = exposed with outcome
+b = exposed without outcome
+c = non-exposed with outcome
+d = non-exposed without outcome
+
+
+```{r}
+a <- length(which(exposed$bp_followup == "Yes"))
+b <- length(which(exposed$bp_followup == "No"))
+c <- length(which(non_exposed$bp_followup == "Yes"))
+d <- length(which(non_exposed$bp_followup == "No"))
+
+a
+b
+c
+d
+```
+We are now creating a 2x2 matrix :
+
+```{r}
+table <- matrix(c(a, b, c, d), nrow = 2, byrow = TRUE)
+table <- cbind(table, c(a + b, c + d))
+colnames(table) <- c("Low back pain", "Without LBP", "Total")
+rownames(table) <- c("Obesity", "Without Obesity")
+
+table
+write.csv(table, "2x2table.csv")
+```
+
+## Let's compute the Risk Ratio
+
+### Risk of outcome in exposed and non-exposed groups
+```{r}
+lbp_expo <- a/(a+b)
+
+lbp_expo
+
+lbp_non_exp <- c/(c+d)
+
+lbp_non_exp
+```
+
+### Risk Ratio
+```{r}
+RR <- lbp_expo/lbp_non_exp
+
+RR
+```
+
+Let's plot a bar graph showing incidence proportion of LBP by exposure groups:
+
+```{r}
+library(tidyverse)
+cohort$exposure <- factor(
+  ifelse(cohort$bmi_cat == "Obesity", "exposed (BMI >= 30 kg/m2)",
+  ifelse(cohort$bmi_cat %in% c("Normal", "Overweight", "Underweight"), 
+         "non-exposed (BMI < 30 kg/m2)", NA))
+)
+
+#cohort
+cohort %>%
+  drop_na(bp_followup) %>% 
+  ggplot(aes(y= exposure, fill = bp_followup)) +
+  geom_bar() +
+  theme_classic() +
+  labs(title = "Incidence of Low Back Pain by exposure groups (Obesity)", 
+       x = "Number of participants", y = "Exposure groups")
+```
+
+Table 1: study characteristics
+```{r}
+table1 <- data.frame(
+  characteristics = c("Number of participants", 
+                               "Mean age",
+                               "SD",
+                               "Male", "M %", 
+                               "Female", "F %", 
+                               "Low Back Pain", "LBP %", "LBP M", "LBPM %", "LBP F", "LBPF %"),
+  Exposed = c(nrow(exposed), 
+                       round(mean(exposed$age), 2), round(sd(exposed$age), 2), 
+                       length(which(exposed$sex == "Male")), 
+              round(length(which(exposed$sex == "Male")) / nrow(exposed) * 100, 2), 
+                       length(which(exposed$sex == "Female")), 
+              round(length(which(exposed$sex == "Female")) / nrow(exposed) * 100, 2),
+                       a, round(a/nrow(exposed) * 100, 2),
+              length(which(exposed$sex == "Male" & exposed$bp_followup == "Yes")), 
+              round(length(which(exposed$sex == "Male" & exposed$bp_followup == "Yes")) / a * 100, 2),
+              length(which(exposed$sex == "Female" & exposed$bp_followup == "Yes")), 
+              round(length(which(exposed$sex == "Female" & exposed$bp_followup == "Yes")) / a * 100, 2)),
+  Non_exposed = c(nrow(non_exposed), 
+                       round(mean(non_exposed$age), 2), round(sd(non_exposed$age), 2), 
+                       length(which(non_exposed$sex == "Male")), 
+                  round(length(which(non_exposed$sex == "Male")) / nrow(non_exposed) * 100, 2),
+                       length(which(non_exposed$sex == "Female")), 
+                  round(length(which(non_exposed$sex == "Female")) / nrow(non_exposed) * 100, 2),
+                       c, round(c/nrow(non_exposed) * 100, 2), 
+                  length(which(non_exposed$sex == "Male" & non_exposed$bp_followup == "Yes")), 
+              round(length(which(non_exposed$sex == "Male" & non_exposed$bp_followup == "Yes")) / c * 100, 2),
+              length(which(non_exposed$sex == "Female" & non_exposed$bp_followup == "Yes")), 
+              round(length(which(non_exposed$sex == "Female" & non_exposed$bp_followup == "Yes")) / c * 100, 2)))
+
+table1
+write.csv(table1, "characteristics.csv", row.names = FALSE)
+```
+
+Table 2: age groups
+
+```{r}
+library(dplyr)
+table2 <- data.frame(Age_groups = c("25-35",
+                          "36-45",
+                          "46-55",
+                          "56-65",
+                          "66-75"), 
+           Number_of_participants = c(length(which(cohort$age < 36)),
+                                      length(which(cohort$age > 35 & cohort$age < 46)),
+                                      length(which(cohort$age > 45 & cohort$age < 56)),
+                                      length(which(cohort$age > 55 & cohort$age < 66)),
+                                      length(which(cohort$age > 65))
+                                      ), 
+           Number_of_cases_LBP = c(length(which(cohort$age < 36 & cohort$bp_followup == "Yes")),
+                                      length(which(cohort$age > 35 & cohort$age < 46 & cohort$bp_followup == "Yes")),
+                                      length(which(cohort$age > 45 & cohort$age < 56 & cohort$bp_followup == "Yes")),
+                                      length(which(cohort$age > 55 & cohort$age < 66 & cohort$bp_followup == "Yes")),
+                                      length(which(cohort$age > 65 & cohort$bp_followup == "Yes"))),
+           Incidence_proportion = c(round(length(which(cohort$age < 36 & cohort$bp_followup == "Yes")) / 
+                                      length(which(cohort$age < 36)) * 100, 2),
+                                      round(length(which(cohort$age > 35 & cohort$age < 46 & cohort$bp_followup == "Yes")) /
+                                      length(which(cohort$age > 35 & cohort$age < 46)) * 100, 2),
+                                      round(length(which(cohort$age > 45 & cohort$age < 56 & cohort$bp_followup == "Yes")) /
+                                      length(which(cohort$age > 45 & cohort$age < 56)) * 100, 2),
+                                      round(length(which(cohort$age > 55 & cohort$age < 66 & cohort$bp_followup == "Yes")) /
+                                      length(which(cohort$age > 55 & cohort$age < 66)) * 100, 2),
+                                      round(length(which(cohort$age > 65 & cohort$bp_followup == "Yes")) / 
+                                      length(which(cohort$age > 65)) * 100, 2)))
+table2
+write.csv(table2, "agegroups.csv", row.names = FALSE)           
+```
+
+
+
+
+
+
+
+
+
+
