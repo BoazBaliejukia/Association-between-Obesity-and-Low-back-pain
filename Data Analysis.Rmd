@@ -1,23 +1,27 @@
 ---
 title: 'Epidemiology : poster presentation assignment (group 7)'
-author: "Boaz"
+author: "Boaz Baliejukia"
 date: "2024-10-19"
 output:
-  html_document: default
   pdf_document: default
+  html_document: default
 ---
+# Loading packages
 
-# Let's upload the dataset.
+```{r, message=FALSE}
+library(tidyverse)
+library(knitr)
+```
+# Let's upload the dataset
 
 ```{r}
 sample <- read.csv("Poster Presentation.csv")
-head(sample, 10)
-summary(sample)
-
-
+head(sample, 15) %>% 
+  kable(align = "c")
+glimpse(sample)
 ```
 
-# We are now cleaning data.
+# We are now cleaning data
     
 ## Let's recode variables
     
@@ -34,8 +38,8 @@ sample$lost <- factor(sample$lost, levels = c(0, 1),
 sample$bp_followup <- factor(sample$bp_followup, levels = c(0, 1), 
                              labels = c("No", "Yes"))
 
-head(sample, 10)
-summary(sample)
+head(sample, 10) %>% 
+  kable(align = "c")
 
 ```
 
@@ -45,13 +49,14 @@ summary(sample)
 
 ```{r}
 cohort <- sample[sample$bp_baseline == "No", ]
-head(cohort, 10)
+head(cohort, 10) %>% 
+  kable(align = "c")
 
 ```
 
-### Table 1: Baseline characteristics according to BMI categories:
+### Table 1: Baseline characteristics according to BMI categories
+
 ```{r}
-library(dplyr)
 cat <- cohort %>%
     group_by(bmi_cat) %>%
     summarise(
@@ -60,14 +65,14 @@ cat <- cohort %>%
         sd_age = sd(age, na.rm = TRUE),
         male_percentage = sum(sex == "Male") / n() * 100,
         female_percentage = sum(sex == "Female") / n() * 100
-    )
-cat
+        )
+cat %>% 
+  kable(align = "c")
 ```
 
 ### Figure 1: Barplot
 
 ```{r}
-library(tidyverse)
 
 graph1 <- cohort %>%
     drop_na() %>%
@@ -87,16 +92,16 @@ exposed <- cohort[cohort$bmi_cat =="Obesity", ]
 non_exposed <- cohort[!cohort$bmi_cat =="Obesity", ]
 
 nrow(exposed)
-exposed
+
 nrow(non_exposed)
-head(non_exposed, 70)
- 
+
 ```
 
 
 ### Baseline Demographic characteristics of participants:
+
 ```{r}
-library(dplyr)
+
 demo_expo <- exposed %>%
     summarise(
         count = n(),
@@ -105,7 +110,8 @@ demo_expo <- exposed %>%
         male_percentage = sum(sex == "Male") / n() * 100,
         female_percentage = sum(sex == "Female") / n() * 100
     )
-demo_expo
+demo_expo %>% 
+  kable(align = "c")
 
 demo_non_expo <- non_exposed %>%
     summarise(
@@ -115,7 +121,8 @@ demo_non_expo <- non_exposed %>%
         male_percentage = sum(sex == "Male") / n() * 100,
         female_percentage = sum(sex == "Female") / n() * 100
     )
-demo_non_expo
+demo_non_expo %>% 
+  kable(align = "c")
 ```
 
 # Result 
@@ -159,7 +166,8 @@ table <- cbind(table, c(a + b, c + d))
 colnames(table) <- c("Low back pain", "Without LBP", "Total")
 rownames(table) <- c("Obesity", "Without Obesity")
 
-table
+table %>% 
+  kable(align = "c")
 write.csv(table, "2x2table.csv")
 ```
 
@@ -183,10 +191,12 @@ RR <- lbp_expo/lbp_non_exp
 RR
 ```
 
+### Figure 2: Barplot
+
 Let's plot a bar graph showing incidence proportion of LBP by exposure groups:
 
 ```{r}
-library(tidyverse)
+
 cohort$exposure <- factor(
   ifelse(cohort$bmi_cat == "Obesity", "exposed (BMI >= 30 kg/m2)",
   ifelse(cohort$bmi_cat %in% c("Normal", "Overweight", "Underweight"), 
@@ -203,7 +213,8 @@ cohort %>%
        x = "Number of participants", y = "Exposure groups")
 ```
 
-Table 1: study characteristics
+## Table 2: Summary table
+
 ```{r}
 table1 <- data.frame(
   characteristics = c("Number of participants", 
@@ -235,14 +246,16 @@ table1 <- data.frame(
               length(which(non_exposed$sex == "Female" & non_exposed$bp_followup == "Yes")), 
               round(length(which(non_exposed$sex == "Female" & non_exposed$bp_followup == "Yes")) / c * 100, 2)))
 
-table1
+table1 %>% 
+  kable(align = "c")
+
 write.csv(table1, "characteristics.csv", row.names = FALSE)
 ```
 
-Table 2: age groups
+## Table 3: age groups
 
 ```{r}
-library(dplyr)
+
 table2 <- data.frame(Age_groups = c("25-35",
                           "36-45",
                           "46-55",
@@ -269,7 +282,9 @@ table2 <- data.frame(Age_groups = c("25-35",
                                       length(which(cohort$age > 55 & cohort$age < 66)) * 100, 2),
                                       round(length(which(cohort$age > 65 & cohort$bp_followup == "Yes")) / 
                                       length(which(cohort$age > 65)) * 100, 2)))
-table2
+table2 %>% 
+  kable(align = "c")
+
 write.csv(table2, "agegroups.csv", row.names = FALSE)           
 ```
 

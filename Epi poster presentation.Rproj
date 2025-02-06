@@ -1,4 +1,5 @@
 Version: 1.0
+ProjectId: 1fdd0cd3-a374-4fc2-8161-a1ca3fc8aa67
 
 RestoreWorkspace: Default
 SaveWorkspace: Default
@@ -11,3 +12,5 @@ Encoding: UTF-8
 
 RnwWeave: Sweave
 LaTeX: pdfLaTeX
+
+ProjectName: Epi_project poster
