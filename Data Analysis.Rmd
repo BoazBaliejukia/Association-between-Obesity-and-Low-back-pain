@@ -1,18 +1,32 @@
 ---
-title: 'Epidemiology : poster presentation assignment (group 7)'
+title: '**Epidemiology : Poster Presentation Assignment**'
 author: "Boaz Baliejukia"
 date: "2024-10-19"
 output:
   pdf_document: default
   html_document: default
 ---
-# Loading packages
+
+## Background
+
+Low back pain (LBP) is a widespread condition that affects individuals across all age groups. It is inherently subjective, as it cannot be observed directly and is only identifiable through self-report by those experiencing it(1). Globally, it is estimated that approximately 619 million people live with LBP(2). Diagnosing the underlying cause remains a complex and often debated process, as multiple factors—both physical and behavioral—may contribute to its onset(3).
+Among known lifestyle-related risk factors, smoking and elevated body mass index (BMI) have been consistently associated with increased likelihood of developing LBP and seeking healthcare for it(4). Gaining a clearer understanding of the relationship between excess body weight and LBP is critical for informing prevention strategies.
+
+Research Question:
+**Are adults with a body mass index (BMI) $\geq$ 30 kg/m² at greater risk of developing low back pain compared to those with lower BMI?**
+
+To explore this question, we have been asked to simulate a prospective cohort study as part of an epidemiology assessment. The fictional dataset includes 2,038 adults (aged 25–75) from NHS Lothian, selected via a two-stage cluster sampling method from 10 out of 20 general practices. After baseline screening, individuals who already had low back pain (n = 935) were excluded. Participants’ BMI was calculated using standardized measurements of height and weight, and they were categorized into two groups: BMI $\geq$ 30 kg/m² (n = 66) and BMI < 30 kg/m² (n = 1,972). The cohort was followed over one year to identify new cases of LBP.
+
+Note: This project was completed for educational purposes and uses simulated data.
+
+
+## Loading packages
 
 ```{r, message=FALSE}
 library(tidyverse)
 library(knitr)
 ```
-# Let's upload the dataset
+## Let's upload the dataset
 
 ```{r}
 sample <- read.csv("Poster Presentation.csv")
@@ -21,9 +35,9 @@ head(sample, 15) %>%
 glimpse(sample)
 ```
 
-# We are now cleaning data
+## We are now cleaning data
     
-## Let's recode variables
+### Let's recode variables
     
 ```{r}
 sample$id <- as.character(sample$id)
@@ -44,7 +58,7 @@ head(sample, 10) %>%
 ```
 
 
-## Let's get our population at risk and call it "cohort": adults without LBP at the beginning of the study (bp_baseline = No) 
+### Let's get our population at risk and call it "cohort": adults without LBP at the beginning of the study (bp_baseline = No) 
 
 
 ```{r}
@@ -54,7 +68,7 @@ head(cohort, 10) %>%
 
 ```
 
-### Table 1: Baseline characteristics according to BMI categories
+#### Table 1: Baseline characteristics according to BMI categories
 
 ```{r}
 cat <- cohort %>%
@@ -70,7 +84,7 @@ cat %>%
   kable(align = "c")
 ```
 
-### Figure 1: Barplot
+#### Figure 1: Barplot
 
 ```{r}
 
@@ -85,7 +99,7 @@ graph1 <- cohort %>%
 graph1
 ```
 
-## We're now splitting our cohort into 2 groups: exposed (obesity) and non-exposed
+### We're now splitting our cohort into 2 groups: exposed (obesity) and non-exposed
 
 ```{r}
 exposed <- cohort[cohort$bmi_cat =="Obesity", ]
@@ -98,7 +112,7 @@ nrow(non_exposed)
 ```
 
 
-### Baseline Demographic characteristics of participants:
+#### Baseline Demographic characteristics of participants:
 
 ```{r}
 
@@ -125,9 +139,9 @@ demo_non_expo %>%
   kable(align = "c")
 ```
 
-# Result 
+## Result 
 
-## Attrition bias (lost to follow up):
+### Attrition bias (lost to follow up):
 
 ```{r}
 lost_expo <- sum(is.na(exposed$bp_followup))
@@ -138,7 +152,7 @@ lost_non_expo
 ```
 
 
-## Let's create a 2x2 table
+### Let's create a 2x2 table
 
 Considering :
 a = exposed with outcome
@@ -168,12 +182,12 @@ rownames(table) <- c("Obesity", "Without Obesity")
 
 table %>% 
   kable(align = "c")
-write.csv(table, "2x2table.csv")
+
 ```
 
-## Let's compute the Risk Ratio
+### Let's compute the Risk Ratio
 
-### Risk of outcome in exposed and non-exposed groups
+#### Risk of outcome in exposed and non-exposed groups
 ```{r}
 lbp_expo <- a/(a+b)
 
@@ -184,75 +198,83 @@ lbp_non_exp <- c/(c+d)
 lbp_non_exp
 ```
 
-### Risk Ratio
+
+
 ```{r}
+# Risk Ratio and the Population Attributable Risk
 RR <- lbp_expo/lbp_non_exp
 
 RR
+
+PAR = 0.48 
 ```
+Individuals with BMI $\geq$ 30 had **1.15** times greater risk of LBP comparing to those with BMI <30 kg/m2. And **0.48%** of LBP cases is attributable to BMI $\geq$ 30.
 
-### Figure 2: Barplot
-
-Let's plot a bar graph showing incidence proportion of LBP by exposure groups:
-
-```{r}
-
-cohort$exposure <- factor(
-  ifelse(cohort$bmi_cat == "Obesity", "exposed (BMI >= 30 kg/m2)",
-  ifelse(cohort$bmi_cat %in% c("Normal", "Overweight", "Underweight"), 
-         "non-exposed (BMI < 30 kg/m2)", NA))
-)
-
-#cohort
-cohort %>%
-  drop_na(bp_followup) %>% 
-  ggplot(aes(y= exposure, fill = bp_followup)) +
-  geom_bar() +
-  theme_classic() +
-  labs(title = "Incidence of Low Back Pain by exposure groups (Obesity)", 
-       x = "Number of participants", y = "Exposure groups")
-```
-
-## Table 2: Summary table
+### Table 2: Summary table
 
 ```{r}
 table1 <- data.frame(
   characteristics = c("Number of participants", 
-                               "Mean age",
-                               "SD",
-                               "Male", "M %", 
-                               "Female", "F %", 
-                               "Low Back Pain", "LBP %", "LBP M", "LBPM %", "LBP F", "LBPF %"),
+                      "Mean age",
+                      "SD",
+                      "Male", 
+                      "M %", 
+                      "Female", 
+                      "F %", 
+                      "Low Back Pain", 
+                      "LBP %", 
+                      "LBP M", 
+                      "LBPM %", 
+                      "LBP F", 
+                      "LBPF %"),
   Exposed = c(nrow(exposed), 
-                       round(mean(exposed$age), 2), round(sd(exposed$age), 2), 
+                       round(mean(exposed$age), 2), 
+              round(sd(exposed$age), 2), 
                        length(which(exposed$sex == "Male")), 
-              round(length(which(exposed$sex == "Male")) / nrow(exposed) * 100, 2), 
+              round(length(which(exposed$sex == "Male")) / 
+                      nrow(exposed) * 100, 2), 
                        length(which(exposed$sex == "Female")), 
-              round(length(which(exposed$sex == "Female")) / nrow(exposed) * 100, 2),
+              round(length(which(exposed$sex == "Female")) / 
+                      nrow(exposed) * 100, 2),
                        a, round(a/nrow(exposed) * 100, 2),
-              length(which(exposed$sex == "Male" & exposed$bp_followup == "Yes")), 
-              round(length(which(exposed$sex == "Male" & exposed$bp_followup == "Yes")) / a * 100, 2),
-              length(which(exposed$sex == "Female" & exposed$bp_followup == "Yes")), 
-              round(length(which(exposed$sex == "Female" & exposed$bp_followup == "Yes")) / a * 100, 2)),
+              length(which(exposed$sex == "Male" & 
+                             exposed$bp_followup == "Yes")), 
+              round(length(which(exposed$sex == "Male" & 
+                                   exposed$bp_followup == "Yes")) / 
+                      a * 100, 2),
+              length(which(exposed$sex == "Female" & 
+                             exposed$bp_followup == "Yes")), 
+              round(length(which(exposed$sex == "Female" & 
+                                   exposed$bp_followup == "Yes")) / 
+                      a * 100, 2)),
   Non_exposed = c(nrow(non_exposed), 
-                       round(mean(non_exposed$age), 2), round(sd(non_exposed$age), 2), 
+                       round(mean(non_exposed$age), 2), 
+                  round(sd(non_exposed$age), 2), 
                        length(which(non_exposed$sex == "Male")), 
-                  round(length(which(non_exposed$sex == "Male")) / nrow(non_exposed) * 100, 2),
+                  round(length(which(non_exposed$sex == "Male")) / 
+                          nrow(non_exposed) * 100, 2),
                        length(which(non_exposed$sex == "Female")), 
-                  round(length(which(non_exposed$sex == "Female")) / nrow(non_exposed) * 100, 2),
+                  round(length(which(non_exposed$sex == "Female")) / 
+                          nrow(non_exposed) * 100, 2),
                        c, round(c/nrow(non_exposed) * 100, 2), 
-                  length(which(non_exposed$sex == "Male" & non_exposed$bp_followup == "Yes")), 
-              round(length(which(non_exposed$sex == "Male" & non_exposed$bp_followup == "Yes")) / c * 100, 2),
-              length(which(non_exposed$sex == "Female" & non_exposed$bp_followup == "Yes")), 
-              round(length(which(non_exposed$sex == "Female" & non_exposed$bp_followup == "Yes")) / c * 100, 2)))
+                  length(which(non_exposed$sex == "Male" & 
+                                 non_exposed$bp_followup == "Yes")), 
+              round(length(which(non_exposed$sex == "Male" & 
+                                   non_exposed$bp_followup == "Yes")) / 
+                      c * 100, 2),
+              length(which(non_exposed$sex == "Female" & 
+                             non_exposed$bp_followup == "Yes")), 
+              round(length(which(non_exposed$sex == "Female" & 
+                                   non_exposed$bp_followup == "Yes")) / 
+                      c * 100, 2)))
 
 table1 %>% 
   kable(align = "c")
 
-write.csv(table1, "characteristics.csv", row.names = FALSE)
+
 ```
 
-## Table 3: age groups
+### Table 3: age groups
 
 ```{r}
 
@@ -262,33 +284,67 @@ table2 <- data.frame(Age_groups = c("25-35",
                           "56-65",
                           "66-75"), 
            Number_of_participants = c(length(which(cohort$age < 36)),
-                                      length(which(cohort$age > 35 & cohort$age < 46)),
-                                      length(which(cohort$age > 45 & cohort$age < 56)),
-                                      length(which(cohort$age > 55 & cohort$age < 66)),
+                                      length(which(cohort$age > 35 & 
+                                                     cohort$age < 46)),
+                                      length(which(cohort$age > 45 & 
+                                                     cohort$age < 56)),
+                                      length(which(cohort$age > 55 & 
+                                                     cohort$age < 66)),
                                       length(which(cohort$age > 65))
                                       ), 
-           Number_of_cases_LBP = c(length(which(cohort$age < 36 & cohort$bp_followup == "Yes")),
-                                      length(which(cohort$age > 35 & cohort$age < 46 & cohort$bp_followup == "Yes")),
-                                      length(which(cohort$age > 45 & cohort$age < 56 & cohort$bp_followup == "Yes")),
-                                      length(which(cohort$age > 55 & cohort$age < 66 & cohort$bp_followup == "Yes")),
-                                      length(which(cohort$age > 65 & cohort$bp_followup == "Yes"))),
-           Incidence_proportion = c(round(length(which(cohort$age < 36 & cohort$bp_followup == "Yes")) / 
+           Number_of_cases_LBP = c(length(which(cohort$age < 36 & 
+                                                  cohort$bp_followup == "Yes")),
+                                      length(which(cohort$age > 35 & 
+                                                     cohort$age < 46 & 
+                                                     cohort$bp_followup == "Yes")),
+                                      length(which(cohort$age > 45 & 
+                                                     cohort$age < 56 & 
+                                                     cohort$bp_followup == "Yes")),
+                                      length(which(cohort$age > 55 & 
+                                                     cohort$age < 66 & 
+                                                     cohort$bp_followup == "Yes")),
+                                      length(which(cohort$age > 65 & 
+                                                     cohort$bp_followup == "Yes"))),
+           Incidence_proportion = c(round(length(which(cohort$age < 36 & 
+                                                         cohort$bp_followup == "Yes")) / 
                                       length(which(cohort$age < 36)) * 100, 2),
-                                      round(length(which(cohort$age > 35 & cohort$age < 46 & cohort$bp_followup == "Yes")) /
-                                      length(which(cohort$age > 35 & cohort$age < 46)) * 100, 2),
-                                      round(length(which(cohort$age > 45 & cohort$age < 56 & cohort$bp_followup == "Yes")) /
-                                      length(which(cohort$age > 45 & cohort$age < 56)) * 100, 2),
-                                      round(length(which(cohort$age > 55 & cohort$age < 66 & cohort$bp_followup == "Yes")) /
-                                      length(which(cohort$age > 55 & cohort$age < 66)) * 100, 2),
-                                      round(length(which(cohort$age > 65 & cohort$bp_followup == "Yes")) / 
+                                      round(length(which(cohort$age > 35 & 
+                                                           cohort$age < 46 & 
+                                                           cohort$bp_followup == "Yes")) /
+                                      length(which(cohort$age > 35 & 
+                                                     cohort$age < 46)) * 100, 2),
+                                      round(length(which(cohort$age > 45 & 
+                                                           cohort$age < 56 & 
+                                                           cohort$bp_followup == "Yes")) /
+                                      length(which(cohort$age > 45 & 
+                                                     cohort$age < 56)) * 100, 2),
+                                      round(length(which(cohort$age > 55 & 
+                                                           cohort$age < 66 & 
+                                                           cohort$bp_followup == "Yes")) /
+                                      length(which(cohort$age > 55 & 
+                                                     cohort$age < 66)) * 100, 2),
+                                      round(length(which(cohort$age > 65 & 
+                                                           cohort$bp_followup == "Yes")) / 
                                       length(which(cohort$age > 65)) * 100, 2)))
 table2 %>% 
   kable(align = "c")
 
-write.csv(table2, "agegroups.csv", row.names = FALSE)           
 ```
 
+## Conclusion
 
+This study demonstrates a clear association between high BMI and an elevated risk of developing LBP, particularly among men. These results highlight the importance of considering obesity as a modifiable risk factor in low back pain prevention strategies. Future studies should aim to clarify gender-specific risk profiles, integrate socioeconomic and lifestyle data and use extended follow-up for clearer long-term impact.
+
+
+
+
+
+## References
+
+   1. Manchikanti L. Epidemiology of low back pain. Pain Physician. 2000 Apr;3(2):167–92. 
+   2.  Ferreira ML, De Luca K, Haile LM, Steinmetz JD, Culbreth GT, Cross M. Global, regional, and national burden of low back pain, 1990–2020, its attributable risk factors, and projections to 2050: a systematic analysis of the Global Burden of Disease Study 2021. Lancet Rheumatol. 2023;5(6):e316–29. 
+   3.  Knezevic NN, Candido KD, Vlaeyen JWS, Van Zundert J, Cohen SP. Low back pain. 2021; 
+   4.  Koyanagi A, Stickley A, Garin N, Miret M, Ayuso-Mateos JL, Leonardi M, et al. The association between obesity and back pain in nine countries: A cross-sectional study. BMC Public Health. 2015;15(1):1–9.
 
 
 
